@@ -1,0 +1,54 @@
+Pseudocódigo:
+
+public class Atuendo {
+    List<Prenda> prendas;
+
+    public void validarAtuendo() {
+        ValidadorDePrendas validador = ValidadorDePrendas.getInstance();
+        prendas.forEach(prenda -> validador.validarPrenda(prenda));
+    }
+}
+
+public class ValidacionCategoria implements Validacion {
+
+    public boolean esValido(Prenda prenda) {
+        // El tipo debe estar acorde a la categoria
+        return prenda.getCategoria().getTiposPermitidos()
+                .contains(prenda.getTipo());
+    }
+
+    public void validar(Prenda prenda) {
+        if(prenda.getCategoria() == null)
+            throw new FaltaAtributo("Falta ingresar la categoría!");
+        else if(!this.esValido(prenda)) {
+            throw new NoCoincideTipoConCategoria("El tipo de prenda no pertenece a esta categoria");
+    }
+
+}
+
+public class ValidacionTipoPrenda implements Validacion {
+
+    public void validar(Prenda prenda) {
+        if (prenda.getTipo() == null)
+            throw new FaltaAtributo("Falta ingresar el tipo de prenda!");
+    }
+
+}
+
+public class ValidacionMaterial {
+
+    public void validar(Prenda prenda) {
+        if (prenda.getMaterial() == null)
+            throw new FaltaAtributo("Falta ingresar el material de la prenda!");
+    }
+
+}
+
+public class ValidacionColor {
+
+    public void validar(Prenda prenda) {
+        if (prenda.getColorPrincipal() == null)
+            throw new FaltaAtributo("Falta ingresar el color principal de la prenda!");
+    }
+
+}

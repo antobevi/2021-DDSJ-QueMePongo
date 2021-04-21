@@ -1,11 +1,10 @@
 package domain;
 
-import domain.constants.Categoria;
 import domain.constants.Color;
 import domain.constants.TipoDePrenda;
 
 public class Prenda {
-    private Categoria categoria;
+    Categoria categoria;
     private String nombre;
     private Color colorPrincipal;
     private Color colorSecundario;
@@ -62,6 +61,7 @@ public class Prenda {
 
     public Prenda(Categoria categoria, String nombre, Color colorPrincipal, Color colorSecundario,
                   String material, TipoDePrenda tipo) {
+        // quiero evitar que haya prendas sin tipo, tela, categoría o color primario
         this.categoria = categoria;
         this.nombre = nombre;
         this.colorPrincipal = colorPrincipal;

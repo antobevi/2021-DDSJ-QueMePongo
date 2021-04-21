@@ -18,4 +18,9 @@ public class Atuendo {
         prendas.remove(prenda);
     }
 
+    public void validadAtuendo() {
+        ValidadorDePrendas validador = ValidadorDePrendas.getInstance();
+        prendas.forEach(prenda -> validador.validarPrenda(prenda));
+    }
+
 }

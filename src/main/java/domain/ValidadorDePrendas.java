@@ -7,11 +7,11 @@ public class ValidadorDePrendas {
     private List<Validacion> validaciones = new ArrayList<>();
 
     private static ValidadorDePrendas instance = null;
-    private ValidadorDePrendas() {
+    ValidadorDePrendas() {
         // Asi nadie puede llamar al constructor de esta clase
     }
 
-    public ValidadorDePrendas getInstance() {
+    public static ValidadorDePrendas getInstance() {
         if(instance == null)
             instance = new ValidadorDePrendas();
         return instance;
