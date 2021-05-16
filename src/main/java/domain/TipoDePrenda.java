@@ -7,7 +7,8 @@ import java.util.Objects;
 public class TipoDePrenda {
   Categoria categoria; // De es
 
-  // TODO: Preguntar ¿En este caso es valido tener atributos estaticos (atributos de clase)? ¿Como se validan que la categoria
+  // TODO: Preguntarle al profesor!
+  //  ¿En este caso es valido tener atributos estaticos (atributos de clase)? ¿Como se validan que la categoria
   //  coincida con el tipo de prenda definido?
   static final TipoDePrenda REMERA = new TipoDePrenda(Categoria.PARTE_SUPERIOR);
   static final TipoDePrenda BUZO = new TipoDePrenda(Categoria.PARTE_SUPERIOR);

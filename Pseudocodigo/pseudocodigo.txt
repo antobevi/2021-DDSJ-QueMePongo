@@ -42,6 +42,5 @@ Enum Material {
    JEAN,
    ALGODON,
    LANA,
-   SEDA,
-   GABARDINA;
+   SEDA;
 }

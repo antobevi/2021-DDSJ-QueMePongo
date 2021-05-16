@@ -1,6 +1,5 @@
 package domain;
 
-import domain.constants.Color;
 import domain.constants.Material;
 
 import java.util.Objects;
@@ -36,7 +35,8 @@ public class Prenda {
         // Realizo las validaciones aca por Fail Fast (no constuye prendas invalidas).
         this.tipo = Objects.requireNonNull(tipo, "Falta ingresar el tipo de prenda!");
         this.colorPrincipal = Objects.requireNonNull(colorPrincipal, "Falta ingresar el color principal!");
-        // TODO: ¿Deberia haber otro constructor sin el color secundario?
+        // TODO:
+        //  ¿Deberia haber otro constructor sin el color secundario?
         this.colorSecundario = colorSecundario; // Es opcional y puede setearse despues.
         this.material = Objects.requireNonNull(material, "Falta ingresar el material de la prenda!");
     }
