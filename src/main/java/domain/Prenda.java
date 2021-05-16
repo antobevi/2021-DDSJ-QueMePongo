@@ -1,38 +1,18 @@
 package domain;
 
 import domain.constants.Color;
-import domain.constants.TipoDePrenda;
+import domain.constants.Material;
+
+import java.util.Objects;
 
 public class Prenda {
-    Categoria categoria;
-    private String nombre;
+    private TipoDePrenda tipo;
     private Color colorPrincipal;
     private Color colorSecundario;
-    private String material;
-    private TipoDePrenda tipo;
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    private Material material;
 
     public Color getColorPrincipal() {
         return colorPrincipal;
-    }
-
-    public void setColorPrincipal(Color colorPrincipal) {
-        this.colorPrincipal = colorPrincipal;
     }
 
     public Color getColorSecundario() {
@@ -43,30 +23,21 @@ public class Prenda {
         this.colorSecundario = colorSecundario;
     }
 
-    public String getMaterial() {
+    public Material getMaterial() {
         return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
     }
 
     public TipoDePrenda getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoDePrenda tipo) {
-        this.tipo = tipo;
-    }
-
-    public Prenda(Categoria categoria, String nombre, Color colorPrincipal, Color colorSecundario,
-                  String material, TipoDePrenda tipo) {
-        // quiero evitar que haya prendas sin tipo, tela, categoría o color primario
-        this.categoria = categoria;
-        this.nombre = nombre;
-        this.colorPrincipal = colorPrincipal;
-        this.colorSecundario = colorSecundario;
-        this.material = material;
-        this.tipo = tipo;
+    public Prenda(TipoDePrenda tipo, Color colorPrincipal, Color colorSecundario,
+                  Material material) {
+        // Realizo las validaciones aca por Fail Fast (no constuye prendas invalidas).
+        this.tipo = Objects.requireNonNull(tipo, "Falta ingresar el tipo de prenda!");
+        this.colorPrincipal = Objects.requireNonNull(colorPrincipal, "Falta ingresar el color principal!");
+        // TODO: ¿Deberia haber otro constructor sin el color secundario?
+        this.colorSecundario = colorSecundario; // Es opcional y puede setearse despues.
+        this.material = Objects.requireNonNull(material, "Falta ingresar el material de la prenda!");
     }
 }

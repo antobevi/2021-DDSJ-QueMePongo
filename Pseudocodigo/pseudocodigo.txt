@@ -1,54 +1,47 @@
-Pseudocódigo:
-
 public class Atuendo {
     List<Prenda> prendas;
 
-    public void validarAtuendo() {
-        ValidadorDePrendas validador = ValidadorDePrendas.getInstance();
-        prendas.forEach(prenda -> validador.validarPrenda(prenda));
+    public List<Prenda> getPrendas() {
+        return prendas;
     }
 }
 
-public class ValidacionCategoria implements Validacion {
+public class Prenda {
+    TipoDePrenda tipo;
+    Material material;
+    Color colorPrimario;
+    Color colorSecundario;
 
-    public boolean esValido(Prenda prenda) {
-        // El tipo debe estar acorde a la categoria
-        return prenda.getCategoria().getTiposPermitidos()
-                .contains(prenda.getTipo());
+    public void setColorSecundario(Color color) {
+           colorSecundario = color;
     }
-
-    public void validar(Prenda prenda) {
-        if(prenda.getCategoria() == null)
-            throw new FaltaAtributo("Falta ingresar la categoría!");
-        else if(!this.esValido(prenda)) {
-            throw new NoCoincideTipoConCategoria("El tipo de prenda no pertenece a esta categoria");
-    }
-
 }
 
-public class ValidacionTipoPrenda implements Validacion {
+class TipoDePrenda {
+    Categoria categoria;
 
-    public void validar(Prenda prenda) {
-        if (prenda.getTipo() == null)
-            throw new FaltaAtributo("Falta ingresar el tipo de prenda!");
+    public Categoria getCategoria() {
+           return categoria;
     }
-
 }
 
-public class ValidacionMaterial {
-
-    public void validar(Prenda prenda) {
-        if (prenda.getMaterial() == null)
-            throw new FaltaAtributo("Falta ingresar el material de la prenda!");
-    }
-
+class Color {
+    Integer nivelRojo;
+    Integer nivelAzul;
+    Integer nivelVerde;
 }
 
-public class ValidacionColor {
+Enum Categoria {
+   PARTE_SUPERIOR,
+   PARTE_INFERIOR,
+   CALZADO,
+   ACCESORIOS;
+}
 
-    public void validar(Prenda prenda) {
-        if (prenda.getColorPrincipal() == null)
-            throw new FaltaAtributo("Falta ingresar el color principal de la prenda!");
-    }
-
+Enum Material {
+   JEAN,
+   ALGODON,
+   LANA,
+   SEDA,
+   GABARDINA;
 }

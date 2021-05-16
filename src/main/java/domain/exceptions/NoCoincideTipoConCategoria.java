@@ -1,4 +1,4 @@
-package domain;
+package domain.exceptions;
 
 public class NoCoincideTipoConCategoria extends RuntimeException {
     public NoCoincideTipoConCategoria(String mensaje) {
