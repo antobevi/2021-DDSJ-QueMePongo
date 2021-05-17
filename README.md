@@ -12,6 +12,10 @@ Requerimientos:
 - Evitar que haya prendas sin tipo, tela, categoría o color primario.
 - Evitar que haya prendas cuya categoría no se condiga con su tipo.
 
+Aclaraciones:
+
+- Creo una clase TipoDePrenda que contenga como atributo a la Categoría (Enum) ya que de esa forma evito tener que validar la categoría con su tipo de prenda y se simplifica el constructor de Prenda.
+
 ~ *Segunda Iteración* ~
 
 Requerimientos:
