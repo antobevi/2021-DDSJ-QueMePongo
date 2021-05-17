@@ -39,4 +39,16 @@ Aclaraciones:
 - Elijo usar Factory Method para la creación de uniformes porque me permite separar la construcción del uso y no necesito, al menos para los requerimientos actuales, la flexibilidad que me da el Abstract Method al permitirle a otros objetos utilizar al Sastre para construir uniformes. Como desventaja principal está el uso de herencia que genera más acoplamiento.
 - Decidí crear una clase Material que tenga como atributos a la Tela y a la Trama (ambos son Enums) para evitar que el constructor de Prenda sea demasiado grande ya que a futuro podría llegar a agregarse más características.
 
+~ *Cuarta Iteración* ~
 
+Requerimientos:
+
+- Poder conocer las condiciones climáticas de Buenos Aires en un momento dado para obtener sugerencias acordes.
+- Poder recibir sugerencias de atuendos que tengan una prenda para cada categoría, aunque a futuro podrán tener más.
+- Al generar una sugerencia las prendas deben ser acordes a la temperatura actual sabiendo que para cada prenda habrá una temperatura hasta la cual es adecuada.
+- Poder configurar fácilmente diferentes servicios de obtención del clima para ajustarme a las cambiantes condiciones económicas como administradore.
+- Poder asegurar la calidad de mi aplicación sin incurrir en costos innecesarios como stakeholder.
+
+Aclaraciones:
+
+-
