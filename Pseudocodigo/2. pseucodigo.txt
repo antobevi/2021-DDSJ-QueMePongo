@@ -1,0 +1,168 @@
+class Borrador {
+  TipoDePrenda tipo;
+  Material material;
+  Color colorPrincipal;
+  Color colorSecundario;
+
+  public void especificarTipoDePrenda(TipoDePrenda tipo) {
+    this.tipo = Objects.requireNonNull(tipo, "Falta ingresar el tipo de prenda!");
+  }
+
+  public void especificarColorPrincipal(Color colorPrincipal) {
+    this.colorPrincipal = Objects.requireNonNull(colorPrincipal, "Falta ingresar el color principal!");
+  }
+
+  public void especificarColorSecundario(Color colorSecundario) {
+    this.colorSecundario = colorSecundario;
+  }
+
+  public void especificarMaterial(Material material) {
+    Objects.requireNonNull(material, "Falta ingresar el material de la prenda!");
+    tipo.validarTipoDePrendaPara(material);
+    this.material = material;
+  }
+
+  public Prenda construirPrenda() {
+    return new Prenda(tipo, material, colorPrincipal, colorSecundario);
+  }
+
+}
+
+class TipoDePrenda {
+  Categoria categoria;
+  List<Tela> telasInvalidas;
+
+  public static TipoDePrenda REMERA = new TipoDePrenda(Categoria.PARTE_SUPERIOR,
+      Arrays.asList(Tela.CUERO, Tela.JEAN, Tela.GABARDINA, Tela.ACETATO));
+  public static TipoDePrenda CAMISA = new TipoDePrenda(Categoria.PARTE_SUPERIOR,
+      Arrays.asList(Tela.CUERO, Tela.GABARDINA, Tela.LONA, Tela.LANA, Tela.ACETATO, Tela.PIQUE));
+  public static TipoDePrenda PANTALON = new TipoDePrenda(Categoria.PARTE_INFERIOR,
+      Arrays.asList(Tela.LANA, Tela.PIQUE));
+  public static TipoDePrenda ZAPATILLAS = new TipoDePrenda(Categoria.CALZADO,
+      Arrays.asList(Tela.SEDA, Tela.PIQUE, Tela.LANA));
+  public static TipoDePrenda ZAPATOS = new TipoDePrenda(Categoria.CALZADO,
+      Arrays.asList(Tela.LANA, Tela.SEDA, Tela.PIQUE, Tela.LONA, Tela.ACETATO, Tela.GABARDINA, Tela.ALGODON, Tela.JEAN));
+
+  public void validarTipoDePrendaPara(Material material) {
+    if(telasInvalidas.contains(material)) {
+      throw new MaterialNoAptoParaTipoDePrenda("No es posible construir una prenda de este material!");
+    }
+  }
+
+  public void agregarTelaInvalida(Tela tela) {
+    telasInvalidas.add(tela);
+  }
+
+  public void quitarTelaInvalida(Tela tela) {
+    telasInvalidas.remove(tela);
+  }
+}
+
+enum Tela {
+  JEAN,
+  ALGODON,
+  LANA,
+  CUERO,
+  GABARDINA,
+  PIQUE,
+  ACETATO,
+  LONA,
+  SEDA;
+}
+
+enum Trama {
+  LISA,
+  RAYADA,
+  LUNARES,
+  CUADROS,
+  ESTAMPADO;
+}
+
+class Material {
+  Tela tela;
+  Trama trama;
+
+}
+
+public class Uniforme {
+  Prenda prendaParteSuperior;
+  Prenda prendaParteInferior;
+  Prenda calzado;
+
+}
+
+abstract class Sastre {
+  public void crearUniforme() {
+    new Uniforme(
+        this.fabricarParteSuperior(),
+        this.fabricarParteInferior(),
+        this.fabricarCalzado()
+    );
+  }
+
+  protected abstract Prenda fabricarParteSuperior();
+  protected abstract Prenda fabricarParteInferior();
+  protected abstract Prenda fabricarCalzado();
+
+}
+
+class SastreSanJuan extends Sastre {
+
+  protected Prenda fabricarParteSuperior() {
+    Borrador chombaVerdePique = new Borrador();
+    chombaVerdePique.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_SUPERIOR, telasInvalidas));
+    chombaVerdePique.especificarMaterial(new Material(Tela.PIQUE, null););
+    chombaVerdePique.especificarColorPrincipal(verde);
+
+    return chombaVerdePique.construirPrenda();
+  }
+
+  protected Prenda fabricarParteInferior() {
+    Borrador pantalonGris = new Borrador();
+    pantalonGris.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_INFERIOR, telasInvalidas));
+    pantalonGris.especificarMaterial(new Material(Tela.ACETATO, null));
+    pantalonGris.especificarColorPrincipal(gris);
+
+    return pantalonGris.construirPrenda();
+  }
+
+  protected Prenda fabricarCalzado() {
+    Borrador zapatillasBlancas = new Borrador();
+    zapatillasBlancas.especificarTipoDePrenda(new TipoDePrenda(Categoria.CALZADO, telasInvalidas));
+    zapatillasBlancas.especificarMaterial(new Material(Tela.LONA, null));
+    Color blanco = new Color(255, 255, 255);
+    zapatillasBlancas.especificarColorPrincipal(blanco);
+
+    return zapatillasBlancas.construirPrenda();
+  }
+}
+
+class SastreJohnson extends Sastre {
+
+  protected Prenda fabricarParteSuperior() {
+    Borrador camisaBlanca = new Borrador();
+    camisaBlanca.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_SUPERIOR, telasInvalidas));
+    camisaBlanca.especificarMaterial(new Material(Tela.ALGODON, null));
+    camisaBlanca.especificarColorPrincipal(blanco);
+
+    return camisaBlanca.construirPrenda();
+  }
+
+  protected Prenda fabricarParteInferior() {
+    Borrador pantalonNegro = new Borrador();
+    pantalonNegro.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_INFERIOR, telasInvalidas));
+    pantalonNegro.especificarMaterial(new Material(Tela.ACETATO, null));
+    pantalonNegro.especificarColorPrincipal(negro);
+
+    return pantalonNegro.construirPrenda();
+  }
+
+  protected Prenda fabricarCalzado() {
+    Borrador zapatosNegros = new Borrador();
+    zapatosNegros.especificarTipoDePrenda(new TipoDePrenda(Categoria.CALZADO, telasInvalidas));
+    zapatosNegros.especificarMaterial(new Material(Tela.CUERO, null));
+    zapatosNegros.especificarColorPrincipal(negro);
+
+    return zapatosNegros.construirPrenda();
+  }
+}

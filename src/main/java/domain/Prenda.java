@@ -1,14 +1,12 @@
 package domain;
 
-import domain.constants.Material;
-
 import java.util.Objects;
 
 public class Prenda {
     private TipoDePrenda tipo;
+    private Material material; // Contiene la tela y la trama
     private Color colorPrincipal;
-    private Color colorSecundario;
-    private Material material;
+    private Color colorSecundario; // Es opcional
 
     public Color getColorPrincipal() {
         return colorPrincipal;
@@ -30,14 +28,10 @@ public class Prenda {
         return tipo;
     }
 
-    public Prenda(TipoDePrenda tipo, Color colorPrincipal, Color colorSecundario,
-                  Material material) {
-        // Realizo las validaciones aca por Fail Fast (no constuye prendas invalidas).
+    public Prenda(TipoDePrenda tipo, Material material, Color colorPrincipal, Color colorSecundario) {
         this.tipo = Objects.requireNonNull(tipo, "Falta ingresar el tipo de prenda!");
+        this.material = Objects.requireNonNull(material, "Falta ingresar el material!");
         this.colorPrincipal = Objects.requireNonNull(colorPrincipal, "Falta ingresar el color principal!");
-        // TODO:
-        //  ¿Deberia haber otro constructor sin el color secundario?
-        this.colorSecundario = colorSecundario; // Es opcional y puede setearse despues.
-        this.material = Objects.requireNonNull(material, "Falta ingresar el material de la prenda!");
+        this.colorSecundario = colorSecundario;
     }
 }
