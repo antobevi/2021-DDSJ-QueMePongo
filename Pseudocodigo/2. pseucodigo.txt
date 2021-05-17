@@ -35,6 +35,8 @@ class TipoDePrenda {
   public static TipoDePrenda REMERA = new TipoDePrenda(Categoria.PARTE_SUPERIOR,
       Arrays.asList(Tela.CUERO, Tela.JEAN, Tela.GABARDINA, Tela.ACETATO));
   public static TipoDePrenda CAMISA = new TipoDePrenda(Categoria.PARTE_SUPERIOR,
+        Arrays.asList(Tela.CUERO, Tela.GABARDINA, Tela.LONA, Tela.LANA, Tela.ACETATO, Tela.PIQUE));
+  public static TipoDePrenda CAMISA = new TipoDePrenda(Categoria.PARTE_SUPERIOR,
       Arrays.asList(Tela.CUERO, Tela.GABARDINA, Tela.LONA, Tela.LANA, Tela.ACETATO, Tela.PIQUE));
   public static TipoDePrenda PANTALON = new TipoDePrenda(Categoria.PARTE_INFERIOR,
       Arrays.asList(Tela.LANA, Tela.PIQUE));
@@ -110,7 +112,7 @@ class SastreSanJuan extends Sastre {
 
   protected Prenda fabricarParteSuperior() {
     Borrador chombaVerdePique = new Borrador();
-    chombaVerdePique.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_SUPERIOR, telasInvalidas));
+    chombaVerdePique.especificarTipoDePrenda(TipoDePrenda.REMERA);
     chombaVerdePique.especificarMaterial(new Material(Tela.PIQUE, null););
     chombaVerdePique.especificarColorPrincipal(verde);
 
@@ -119,7 +121,7 @@ class SastreSanJuan extends Sastre {
 
   protected Prenda fabricarParteInferior() {
     Borrador pantalonGris = new Borrador();
-    pantalonGris.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_INFERIOR, telasInvalidas));
+    pantalonGris.especificarTipoDePrenda(TipoDePrenda.PANTALON);
     pantalonGris.especificarMaterial(new Material(Tela.ACETATO, null));
     pantalonGris.especificarColorPrincipal(gris);
 
@@ -128,7 +130,7 @@ class SastreSanJuan extends Sastre {
 
   protected Prenda fabricarCalzado() {
     Borrador zapatillasBlancas = new Borrador();
-    zapatillasBlancas.especificarTipoDePrenda(new TipoDePrenda(Categoria.CALZADO, telasInvalidas));
+    zapatillasBlancas.especificarTipoDePrenda(TipoDePrenda.ZAPATILLAS);
     zapatillasBlancas.especificarMaterial(new Material(Tela.LONA, null));
     Color blanco = new Color(255, 255, 255);
     zapatillasBlancas.especificarColorPrincipal(blanco);
@@ -141,7 +143,7 @@ class SastreJohnson extends Sastre {
 
   protected Prenda fabricarParteSuperior() {
     Borrador camisaBlanca = new Borrador();
-    camisaBlanca.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_SUPERIOR, telasInvalidas));
+    camisaBlanca.especificarTipoDePrenda(TipoDePrenda.CAMISA);
     camisaBlanca.especificarMaterial(new Material(Tela.ALGODON, null));
     camisaBlanca.especificarColorPrincipal(blanco);
 
@@ -150,7 +152,7 @@ class SastreJohnson extends Sastre {
 
   protected Prenda fabricarParteInferior() {
     Borrador pantalonNegro = new Borrador();
-    pantalonNegro.especificarTipoDePrenda(new TipoDePrenda(Categoria.PARTE_INFERIOR, telasInvalidas));
+    pantalonNegro.especificarTipoDePrenda(TipoDePrenda.PANTALON);
     pantalonNegro.especificarMaterial(new Material(Tela.ACETATO, null));
     pantalonNegro.especificarColorPrincipal(negro);
 
@@ -159,7 +161,7 @@ class SastreJohnson extends Sastre {
 
   protected Prenda fabricarCalzado() {
     Borrador zapatosNegros = new Borrador();
-    zapatosNegros.especificarTipoDePrenda(new TipoDePrenda(Categoria.CALZADO, telasInvalidas));
+    zapatosNegros.especificarTipoDePrenda(TipoDePrenda.ZAPATOS);
     zapatosNegros.especificarMaterial(new Material(Tela.CUERO, null));
     zapatosNegros.especificarColorPrincipal(negro);
 
