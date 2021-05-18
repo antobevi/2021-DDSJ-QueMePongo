@@ -1,0 +1,43 @@
+class Atuendo {
+   List<Prenda> prendas;
+
+}
+
+class Guardarropa {
+    List<Atuendo> atuendos;
+
+    public Atuendo sugerirAtuendo() {
+      Pronosticador pronosticador = Pronosticador.getInstance();
+      List<Map<String, Object>> condicionesClimaticas = pronosticador.consultarCondicionesClimaticasParaBsAs();
+      Double temperatura = (Double) condicionesClimaticas.get(0).get("Temperature");
+
+      return this.atuendoParaTemperaturaAdecuada(temperatura).get(0);
+    }
+}
+
+class Prenda {
+  Temperatura temperaturaAdecuada;
+
+}
+
+class Temperatura {
+  Double temperaturaMaxima;
+  Double temperaturaMinima;
+
+  public boolean esAdecuada(Double temperatura) {
+    return temperaturaMinima <= temperatura && temperatura <= temperaturaMaxima;
+  }
+
+}
+
+class Pronosticador {
+  Object servicioClimatico = new AccuWeatherAPI();
+
+  List<Map<String, Object>> consultarCondicionesClimaticasParaBsAs() {
+      return servicioClimatico.getWeather("Buenos Aires");
+  }
+
+  public void setServicioClimatico(Object servicioClimatico) {
+     this.servicioClimatico = servicioClimatico;
+  }
+}

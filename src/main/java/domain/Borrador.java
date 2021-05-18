@@ -7,6 +7,7 @@ public class Borrador {
   private Material material;
   private Color colorPrincipal;
   private Color colorSecundario;
+  private Temperatura temperaturaAdecuada;
 
   public void especificarTipoDePrenda(TipoDePrenda tipo) {
     this.tipo = Objects.requireNonNull(tipo, "Falta ingresar el tipo de prenda!");
@@ -26,8 +27,13 @@ public class Borrador {
     this.material = material;
   }
 
+  public void especificarTemperaturaAdecuada(Temperatura temperaturaAdecuada) {
+    Objects.requireNonNull(temperaturaAdecuada, "Falta ingresar la temperatura adecuada para usar la prenda!");
+    this.temperaturaAdecuada = temperaturaAdecuada;
+  }
+
   public Prenda construirPrenda() {
-    return new Prenda(tipo, material, colorPrincipal, colorSecundario);
+    return new Prenda(tipo, material, colorPrincipal, colorSecundario, temperaturaAdecuada);
   }
 
 }
