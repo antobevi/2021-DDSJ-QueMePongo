@@ -51,4 +51,8 @@ Requerimientos:
 
 Aclaraciones:
 
--
+- Para conocer las condiciones climáticas de Buenos Aires en un momento dado cree una clase Pronosticador (que es un Singleton ya que sólo me interesa tener un único punto de acceso) la cual guarda en un atributo el servicio que utiliza y que puede cambiarse a futuro (falta arreglarlo en el código ya que no se cómo generalizarlo en el tipo de dato del atributo). 
+Dentro de dicha clase cree un método consultarCondicionesClimaticasParaBsAs el cual no está terminado ya que tengo dudas sobre cómo implementarlo.
+- Para sugerir un atuendo con una prenda por categoría cree una clase Guardarropa donde tiene una lista de atuendos y a la clase Prenda le puse como atributo una clase Temperatura, la cual tiene dos atributos: temperaturaMaxima y temperaturaMinima. De esa lista de atuendos primero filtra aquellos que tengan una prenda por categoría y luego para esos atuendos ve cuáles tienen todas sus prendas que sean para la temperatura que hace en el momento de sugerir el atuendo (le pedimos la temperatura al servicio climático y verificamos que esté entre temperaturaMaxima y temperaturaMinima).
+Si a futuro los atuendos a sugerir pueden tener más de una prenda por categoría, entonces simplemente no debería filtrar aquellos atuendos con una prenda por categoría (método delegado en clase Atuendo que se encarga sólo de filtrar).
+- Por otro lado, cree una clase Atuendo la cual tiene como atributo una lista de Prendas (falta validar que en la lista haya al menos una prenda por categoría y sólo una prenda de tipo calzado que no supe como hacerlo).
