@@ -2,6 +2,10 @@
 
 ~ *Primera Iteración* ~
 
+Enunciado:
+
+https://docs.google.com/document/d/1k1f-9AuIohlBGB2soSNePJ6jLxM37_tZeSD-hW_esIQ/edit
+
 Requerimientos:
 
 - Especificar qué tipo de prenda estoy cargando.
@@ -17,6 +21,10 @@ Aclaraciones:
 - Creo una clase TipoDePrenda que contenga como atributo a la Categoría (Enum) ya que de esa forma evito tener que validar la categoría con su tipo de prenda y se simplifica el constructor de Prenda.
 
 ~ *Segunda Iteración* ~
+
+Enunciado:
+
+https://docs.google.com/document/d/10j6XB9zIhl5xox2xBEDEFsgPmueHMkyvLSHcLxl_27Y/edit
 
 Requerimientos:
 
@@ -41,6 +49,10 @@ Aclaraciones:
 
 ~ *Cuarta Iteración* ~
 
+Enunciado:
+
+https://docs.google.com/document/d/1sy9S9EeIQr8fhatKnfTCgOfjVniJDu2viI-Av0gn0xY/edit
+
 Requerimientos:
 
 - Poder conocer las condiciones climáticas de Buenos Aires en un momento dado para obtener sugerencias acordes.
@@ -51,8 +63,26 @@ Requerimientos:
 
 Aclaraciones:
 
-- Para conocer las condiciones climáticas de Buenos Aires en un momento dado cree una clase Pronosticador (que es un Singleton ya que sólo me interesa tener un único punto de acceso) la cual guarda en un atributo el servicio que utiliza y que puede cambiarse a futuro (falta arreglarlo en el código ya que no se cómo generalizarlo en el tipo de dato del atributo). 
-Dentro de dicha clase cree un método consultarCondicionesClimaticasParaBsAs el cual no está terminado ya que tengo dudas sobre cómo implementarlo.
-- Para sugerir un atuendo con una prenda por categoría cree una clase Guardarropa donde tiene una lista de atuendos y a la clase Prenda le puse como atributo una clase Temperatura, la cual tiene dos atributos: temperaturaMaxima y temperaturaMinima. De esa lista de atuendos primero filtra aquellos que tengan una prenda por categoría y luego para esos atuendos ve cuáles tienen todas sus prendas que sean para la temperatura que hace en el momento de sugerir el atuendo (le pedimos la temperatura al servicio climático y verificamos que esté entre temperaturaMaxima y temperaturaMinima).
-Si a futuro los atuendos a sugerir pueden tener más de una prenda por categoría, entonces simplemente no debería filtrar aquellos atuendos con una prenda por categoría (método delegado en clase Atuendo que se encarga sólo de filtrar).
-- Por otro lado, cree una clase Atuendo la cual tiene como atributo una lista de Prendas (falta validar que en la lista haya al menos una prenda por categoría y sólo una prenda de tipo calzado que no supe como hacerlo).
+- TODO
+
+~ *Quinta Iteración* ~
+
+Enunciado:
+
+https://docs.google.com/document/d/1wS622pMwZrDK9ilL_hEt5bBE04vKUKZILx8cIQ-aQzU/edit
+
+Requerimientos:
+
+- Poder manejar varios guardarropas para separar mis prendas según diversos criterios (ropa de viaje, ropa de entrecasa, etc) como usuarie. 
+- Poder crear guardarropas compartidos con otros usuaries (ej, ropa que comparto con mi hermane). 
+- Que otro usuario me proponga tentativamente agregar una prenda al guardarropas.
+- Que otro usuario me proponga tentativamente quitar una prenda del guardarropas.
+- Ver todas las propuestas de modificación (agregar o quitar prendas) del guardarropas y poder aceptarlas o rechazarlas.
+- Poder deshacer las propuestas de modificación que haya aceptado.
+
+Aclaraciones:
+
+- Para poder manejar varios guardarropas, cree una clase Usuario la cual tiene una lista de guardarropas. Decidí no crear una interfaz Guardarropa y subclases por que por ahora no se sabe si cada guardarropa tiene un comportamiento en particular, todos van a tener una lista de prendas de acuerdo al tipo de guardarropa que sea.
+- Para compartir un guardarropa con otro usuario, en la clase Usuario cree un método que recibe por parámetro el usuario y le agrega el guardarropas a su lista de guardarropas.
+- Para ver las propuestas de modificación recibidas cree una lista de propuestas en la clase Usuario. Las propuestas las modelé como una Interfaz Propuesta y subclases PropuestaAgregar y PropuestaQuitar para que haya polimorfismo entre los tipos de propuesta.
+- Para deshacer una propuesta ya aceptada cree una lista de propuestas aceptadas en la clase Usuario ya que necesito guardar esa información en algún lugar, si elimino la propuesta de la lista después no tengo manera de deshacer una propuesta ya aceptada. Cuando aceptas una propuesta se agrega a esta lista y se elimina de la lista de propuestas pendientes.
