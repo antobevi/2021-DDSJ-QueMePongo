@@ -1,0 +1,51 @@
+class Atuendo {
+   List<Prenda> prendasSuperiores;
+   Prenda prendaInferior;
+   Prenda calzado;
+   List<Prenda> accesorios
+
+}
+
+class AsesorImagen() {
+    public Atuendo sugerirAtuendo() {
+      Double temperatura = servicioClimatico.consultarTemperaturaPara("Buenos Aires");
+
+      return this.atuendoParaTemperaturaAdecuada(temperatura);
+    }
+
+}
+
+class Guardarropa {
+    List<Prenda> prendas;
+}
+
+class Prenda {
+  Temperatura temperaturaAdecuada;
+}
+
+class Temperatura {
+  Double temperaturaMaxima;
+  Double temperaturaMinima;
+
+  public boolean esAdecuada(Double temperatura) {
+    return temperaturaMinima <= temperatura && temperatura <= temperaturaMaxima;
+  }
+
+}
+
+interface ProveedorClima {
+  public Double consultarTemperaturaPara(String ciudad);
+}
+
+class ProveedorClimaACUWeatherAPI implements ProveedorClima {
+  ACUWeatherAPI servicioClimatico = new AccuWeatherAPI();
+
+  Map<String, Object> consultarCondicionesClimaticasPara(String ciudad) {
+      return servicioClimatico.getWeather("Buenos Aires").get(0);
+  }
+
+  public Double consultarTemperaturaPara(String ciudad) {
+      return consultarCondicionesClimaticasPara(ciudad).get("Temperature").get("Value");
+  }
+
+}

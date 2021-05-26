@@ -1,6 +1,7 @@
-package domain;
+package domain.Guardarropas;
 
 import ServiciosDelClima.ProveedorClima;
+import domain.Atuendo;
 import domain.Guardarropas.Guardarropa;
 
 import java.util.List;

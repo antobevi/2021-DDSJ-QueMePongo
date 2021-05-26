@@ -1,6 +1,6 @@
-package domain;
+package domain.Guardarropas;
 
-import domain.Guardarropas.Guardarropa;
+import domain.Prenda;
 import domain.Propuestas.Propuesta;
 
 import java.util.List;

@@ -1,0 +1,76 @@
+public interface Propuesta {
+  void modificarGuardarropa(Guardarropa guardarropa);
+}
+
+public class PropuestaAgregar implements Propuesta {
+  private Prenda prendaAAgregar;
+
+  public void modificarGuardarropa(Guardarropa guardarropa) {
+    guardarropa.agregarPrenda(prendaAAgregar);
+  }
+}
+
+public class PropuestaQuitar implements Propuesta {
+  private Prenda prendaAQuitar;
+
+  public void modificarGuardarropa(Guardarropa guardarropa) {
+    guardarropa.quitarPrenda(prendaAQuitar);
+  }
+}
+
+class Guardarropa {
+  public void agregarPrenda(Prenda prenda) {
+    prendas.add(prenda);
+  }
+
+  public void quitarPrenda(Prenda prenda) {
+    prendas.remove(prenda);
+  }
+}
+
+public class Usuario {
+  List<Guardarropa> guardarropas;
+  List<Propuesta> propuestasPendientes;
+  List<Propuesta> propuestasAceptadas;
+
+  void crearGuardarropaCompartido(Usuario usuario, List<Prenda> prendas) {
+    Guardarropa nuevoGuardarropa = new Guardarropa(prendas);
+
+    this.compartirGuardarropaCon(usuario, nuevoGuardarropa);
+    this.agregarGuardarropa(nuevoGuardarropa);
+  }
+
+  void agregarGuardarropa(Guardarropa guardarropa) {
+    guardarropas.add(guardarropa);
+  }
+
+  void compartirGuardarropaCon(Usuario usuario, Guardarropa guardarropa) {
+    usuario.agregarGuardarropa(guardarropa);
+  }
+
+  void recibirPropuesta(Propuesta propuesta) {
+    propuestasPendientes.add(propuesta);
+  }
+
+  void quitarPropuestaPendiente(Propuesta propuesta) {
+    propuestasPendientes.remove(propuesta);
+  }
+
+  void rechazarPropuesta(Propuesta propuesta) {
+    propuestasPendientes.remove(propuesta);
+    // TODO: ¿Se agrega a alguna lista? Si no, repite logica
+  }
+
+  void deshacerPropuestaAceptada(Propuesta propuesta) {
+    propuestasAceptadas.remove(propuesta);
+  }
+
+  void aceptarPropuesta(Propuesta propuesta) {
+    this.quitarPropuestaPendiente(propuesta);
+    propuestasAceptadas.add(propuesta);
+  }
+
+  void proponerModificacion(Propuesta propuesta, Usuario usuario) {
+    usuario.recibirPropuesta(propuesta);
+  }
+}
