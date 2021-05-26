@@ -1,4 +1,4 @@
-package domain;
+package domain.Prenda;
 
 public class Temperatura {
   private Integer temperaturaMaxima;

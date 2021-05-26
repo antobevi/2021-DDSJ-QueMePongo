@@ -1,11 +1,7 @@
 package domain.Uniformes;
 
-import domain.*;
-import domain.constants.Categoria;
+import domain.Prenda.*;
 import domain.constants.Tela;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SastreSanJuan extends Sastre {
   @Override

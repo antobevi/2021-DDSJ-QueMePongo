@@ -1,4 +1,4 @@
-package domain;
+package domain.Prenda;
 
 import domain.constants.Tela;
 import domain.constants.Trama;

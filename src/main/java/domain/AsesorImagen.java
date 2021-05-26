@@ -1,8 +1,6 @@
-package domain.Guardarropas;
+package domain;
 
-import ServiciosDelClima.ProveedorClima;
-import domain.Atuendo;
-import domain.Guardarropas.Guardarropa;
+import domain.ServiciosDelClima.ProveedorClima;
 
 import java.util.List;
 
@@ -19,8 +17,9 @@ public class AsesorImagen {
     return this.atuendoParaTemperaturaAdecuada(temperatura, guardarropa);
   }
     public Atuendo atuendoParaTemperaturaAdecuada(Integer temperatura, Guardarropa guardarropa) {
-      return this.atuendosPosibles(guardarropa).stream().filter(atuendo -> atuendo.esAdecuadoPara(temperatura))
-          .first();
+      return null;
+          /*this.atuendosPosibles(guardarropa).stream().filter(atuendo -> atuendo.esAdecuadoPara(temperatura))
+          .first();*/
     }
 
     public List<Atuendo> atuendosPosibles(Guardarropa guardarropa) {

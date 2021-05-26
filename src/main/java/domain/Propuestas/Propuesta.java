@@ -1,7 +1,6 @@
 package domain.Propuestas;
 
-import domain.Guardarropas.Guardarropa;
-import domain.Prenda;
+import domain.Guardarropa;
 
 public interface Propuesta {
 

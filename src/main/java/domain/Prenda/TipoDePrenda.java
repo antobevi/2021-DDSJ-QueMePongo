@@ -1,4 +1,4 @@
-package domain;
+package domain.Prenda;
 
 import domain.constants.Categoria;
 import domain.constants.Tela;

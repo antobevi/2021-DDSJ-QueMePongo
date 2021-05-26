@@ -1,6 +1,6 @@
 package domain.Uniformes;
 
-import domain.Prenda;
+import domain.Prenda.Prenda;
 
 public class Uniforme {
   Prenda prendaParteSuperior;

@@ -1,4 +1,4 @@
-package ServiciosDelClima;
+package domain.ServiciosDelClima;
 
 import java.util.Map;
 

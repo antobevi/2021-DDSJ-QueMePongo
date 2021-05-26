@@ -1,7 +1,7 @@
 package domain.Propuestas;
 
-import domain.Guardarropas.Guardarropa;
-import domain.Prenda;
+import domain.Guardarropa;
+import domain.Prenda.Prenda;
 
 public class PropuestaQuitar implements Propuesta {
   private Prenda prendaAQuitar;
