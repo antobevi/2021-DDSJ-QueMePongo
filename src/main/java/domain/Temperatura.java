@@ -1,18 +1,18 @@
 package domain;
 
 public class Temperatura {
-  private Double temperaturaMaxima;
-  private Double temperaturaMinima;
+  private Integer temperaturaMaxima;
+  private Integer temperaturaMinima;
 
-  public Double getTemperaturaMaxima() {
+  public Integer getTemperaturaMaxima() {
     return temperaturaMaxima;
   }
 
-  public Double getTemperaturaMinima() {
+  public Integer getTemperaturaMinima() {
     return temperaturaMinima;
   }
 
-  public boolean esAdecuada(Double temperatura) {
+  public boolean esAdecuada(Integer temperatura) {
     return temperaturaMinima <= temperatura && temperatura <= temperaturaMaxima;
   }
 }

@@ -1,4 +1,4 @@
-package domain;
+package ServiciosDelClima;
 
 import java.util.*;
 

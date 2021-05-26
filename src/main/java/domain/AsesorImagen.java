@@ -1,24 +1,33 @@
 package domain;
 
+import ServiciosDelClima.ProveedorClima;
+import domain.Guardarropas.Guardarropa;
+
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Guardarropa {
-    private List<Atuendo> conjuntos;
+public class AsesorImagen {
+  private ProveedorClima servicioClimatico;
 
-    public Atuendo sugerirAtuendo() {
-      Pronosticador pronosticador = Pronosticador.getInstance();
-      List<Map<String, Object>> condicionesClimaticas = pronosticador.consultarCondicionesClimaticasParaBsAs();
-      Double temperatura = (Double) condicionesClimaticas.get(0).get("Temperature");
+  public AsesorImagen(ProveedorClima servicioClimatico) {
+    this.servicioClimatico = servicioClimatico;
+  }
 
-      return this.atuendoParaTemperaturaAdecuada(temperatura).get(0); // Tomo el primero
+  public Atuendo sugerirAtuendo(Guardarropa guardarropa, String ciudad) {
+    Integer temperatura = servicioClimatico.consultarTemperaturaPara(ciudad);
+
+    return this.atuendoParaTemperaturaAdecuada(temperatura, guardarropa);
+  }
+    public Atuendo atuendoParaTemperaturaAdecuada(Integer temperatura, Guardarropa guardarropa) {
+      return this.atuendosPosibles(guardarropa).stream().filter(atuendo -> atuendo.esAdecuadoPara(temperatura))
+          .first();
     }
 
-    public List<Atuendo> atuendoParaTemperaturaAdecuada(Double temperatura) {
-      return conjuntos.stream().filter(atuendo -> this.tieneTodasPrendasAdecuadas(atuendo, temperatura)).collect(Collectors.toList());
+    public List<Atuendo> atuendosPosibles(Guardarropa guardarropa) {
+    // TODO:
+    return null;
     }
 
+  /*
     // Por cada atuendo filtro los que tienen todas sus prendas adecuadas para la temperatura actual.
     public List<Atuendo> atuendosAdecuados(Double temperatura) {
       return atuendoParaTemperaturaAdecuada(temperatura).stream()
@@ -40,5 +49,5 @@ public class Guardarropa {
     public List<Atuendo> atuendosConUnaPrendaPorCategoria() {
      return conjuntos.stream().filter(atuendo -> atuendo.tiene1PrendaPorCategoria()).collect(Collectors.toList());
     }
-
+  */
 }
