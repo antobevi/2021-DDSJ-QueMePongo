@@ -1,4 +1,4 @@
-package domain.exceptions;
+package domain.Exceptions;
 
 public class MaterialNoAptoParaTipoDePrenda extends RuntimeException {
 
