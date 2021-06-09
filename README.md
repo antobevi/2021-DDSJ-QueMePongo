@@ -86,3 +86,33 @@ Aclaraciones:
 - Para compartir un guardarropa con otro usuario, en la clase Usuario cree un método que recibe por parámetro el usuario y le agrega el guardarropas a su lista de guardarropas. Además, el usuario tiene 2 listas: Una lista con los guardarropas a los que tiene acceso (que le fueron compartidos) y una lista con los guardarropas propios, de esta forma cuando un usuario le hace una propuesta a otro, se valida que compartan un guardarropas.
 - Para ver las propuestas de modificación recibidas cree una lista de propuestas en la clase Usuario. Las propuestas las modelé como una Interfaz Propuesta y subclases PropuestaAgregar y PropuestaQuitar para que haya polimorfismo entre los tipos de propuesta.
 - Para deshacer una propuesta ya aceptada cree una lista de propuestas aceptadas en la clase Usuario ya que necesito guardar esa información en algún lugar, si elimino la propuesta de la lista después no tengo manera de deshacer una propuesta ya aceptada. Cuando aceptas una propuesta se agrega a esta lista y se elimina de la lista de propuestas pendientes.
+
+~ *Sexta Iteración* ~
+
+Enunciado: https://docs.google.com/document/d/1NxqhJj70kt-_4aw-CawlISdJZyedzoOcLAVJAZVZISE/edit#
+
+Requerimientos:
+
+Como usuario:
+
+- Tener una sugerencia diaria de qué ponerme y que  todas las mañanas, diariamente, esta sea actualizada.
+- Poder conocer cuáles son las últimas alertas meteorológicas publicadas en el sistema para estar informado (pudiendo verlas, por ejemplo, al entrar en quemepongo.com).
+- Que se actualice mi sugerencia diaria con las condiciones climáticas actualizadas cuando se genere algún alerta durante el día.
+- Tener la posibilidad de que ante una alerta de tormenta la app me notifique que debo llevarme también un paraguas.
+- Que ante una alerta meteorológica de granizo la app  me notifique que evite salir en auto.
+- Poder recibir un mail avisándome si se generó algún alerta meteorológico y cuál.
+- Poder configurar cuáles de estas acciones (notificaciones, mail, recálculo)  quiero que se ejecuten y cuáles no, además de soportar nuevas acciones a futuro. (No nos interesará, sin embargo, soportar nuevas alertas).
+
+Como empleado:
+
+- Poder disparar el cálculo de sugerencias diarias para todos los usuarios para poder ejecutar esta acción a principio de cada día.
+- Poder disparar un proceso que consulte y actualice la lista de alertas publicadas en el sistema para tener control sobre cuándo se publican las mismas.
+
+Como administrador:
+
+- Que las sugerencias diarias se calculen automáticamente sin que un empleado necesite disparar esta acción manualmente.
+- Que las alertas se publiquen en el sitio automáticamente sin que un empleado necesite disparar esta acción manualmente.
+
+Aclaraciones:
+
+- TODO
