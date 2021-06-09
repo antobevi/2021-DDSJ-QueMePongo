@@ -14,5 +14,13 @@ public class ProveedorClimaACUWeatherAPI implements ProveedorClima {
   public Integer consultarTemperaturaPara(String ciudad) {
     return this.consultarCondicionesClimaticas(ciudad).get("Temperature").hashCode(); // TODO: Preguntar esto
   }
+/*
+  Map<String, Object> alertas = apiClima.getAlertas("Buenos Aires");
+  alertas.get("CurrentAlerts"); //Devuelve un objeto como [“STORM”, “HAIL”, ...]
 
+  public String getAlerta(String ciudad) {
+    proveedorClima.getWeather(ciudad).get(1)
+    return "";
+  }
+*/
 }

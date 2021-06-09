@@ -1,0 +1,126 @@
+public class ProveedorClimaACUWeatherAPI implements ProveedorClima {
+  public List<String> ultimasAlertas(String ciudad) {
+    return proveedorClima.getAlertas(ciudad); // Se retorna las alertas del momento. TODO: Automaticamente?
+  }
+
+  public String generarAlerta(String ciudad) {
+    // TODO: generar la alerta, actualizar sugerencias para caso de lluvia y granizo, y notificar a usuarios si llevar paraguas o no usar auto.
+    // TODO: Tmb enviar un mail a cada usuario notificando la alerta y cuál es.
+  }
+}
+
+public static RepositorioUsuarios {
+  List<Usuario> usuarios = new ArrayList<>;
+
+  //public void notificarUsuarios() {}
+}
+
+public class AsesorImagen {
+  public void sugerenciasDiarias(String ciudad){
+    int tiempoRepeticion = 86400000; // 24 hs
+    Timer temporizador = new Timer();
+    Date horaSugerenciaDiaria = new Date(System.currentTimeMillis()); // DUDA
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.HOUR_OF_DAY, 8);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.SECOND, 0);
+    temporizador.schedule(this.sugerirAtuendo(), horaSugerenciaDiaria,tiempoRepeticion);
+    RepositorioUsuarios.getUsuarios().stream().
+      forEach(usuario -> this.sugerirAtuendo(usuario.guardarropaPrincipal(), ciudad));
+  // TODO: Falta hacerle llegar una notificacion.  
+  }
+
+  public void actualizarSugerenciaSegun(String alerta) { 
+    //TODO: Enviarle a los usuarios una notificacion con la alerta y la sugerencia
+  }
+}
+
+public interfaceMailer {
+  public void enviarMail(Mail mail);
+}
+
+public class MailerGmail implements Mailer {
+  private String remitente = "rescateDePatitas@gmail.com";
+  private String clave = "claveMail214&";
+
+  public void enviarMail(Mail mail) {
+
+    //Establecemos la conexión a gmail
+    Properties propiedad = new Properties();
+    propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
+    propiedad.setProperty("mail.smtp.port", "587");
+    propiedad.setProperty("mail.smtp.auth", "true");
+    propiedad.setProperty("mail.smtp.starttls.enable", "true");
+    propiedad.setProperty("mail.smtp.user", this.remitente);
+    propiedad.setProperty("mail.smtp.clave", this.clave);
+    propiedad.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+    Session session = Session.getDefaultInstance(propiedad);
+    MimeMessage mensaje = new MimeMessage(session);
+
+    try {
+      mensaje.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(mail.getDestinatario())));
+      mensaje.setSubject(mail.getAsunto());
+      mensaje.setText(mail.getCuerpoDelMensaje());
+      Transport transport = session.getTransport("smtp");
+      transport.connect("smtp.gmail.com", remitente, clave);
+      transport.sendMessage(mensaje, mensaje.getAllRecipients());
+      transport.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      //throw new NoSePuedeEnviarMailException("No se pudo realizar el envío del mail");
+    }
+  }
+
+}
+
+public class Mail {
+   private String destinatario;
+  private String asunto;
+  private String cuerpoDelMensaje;
+
+  public Mail(String destinatario, String asunto, String cuerpoDelMensaje) {
+    this.destinatario = destinatario;
+    this.asunto = asunto;
+    this.cuerpoDelMensaje = cuerpoDelMensaje;
+  }
+
+  public String getDestinatario() {
+    return destinatario;
+  }
+
+  public String getAsunto() {
+    return asunto;
+  }
+
+  public String getCuerpoDelMensaje() {
+    return cuerpoDelMensaje;
+  }
+}
+
+public class ServiceLocator {
+  private static ServiceLocator instance = new ServiceLocator(); // Singleton
+  // Designa claves únicas para los valores correspondientes que se pueden recuperar en cualquier punto dado.
+  Map<Class,Object> servicios = new HashMap<>();
+
+  public void registrar(Class clazz, Object instance) {
+    servicios.put(clazz, instance);
+  }
+
+  public Object get(Class clazz) {
+    return servicios.get(clazz);
+  }
+
+  public static ServiceLocator getServiceLocator() {
+    return instance;
+  }
+
+  // Para testing
+  public void eliminarServicios(){
+    this.servicios = new HashMap<>();
+  }
+}
+
+public class NotificationService {
+  // TODO
+}
