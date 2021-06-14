@@ -1,7 +1,7 @@
 package domain;
 
 import domain.Prenda.Prenda;
-import domain.constants.Categoria;
+import domain.Constants.Categoria;
 
 import java.util.List;
 import java.util.stream.Collectors;

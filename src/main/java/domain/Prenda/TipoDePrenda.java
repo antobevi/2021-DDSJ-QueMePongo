@@ -1,7 +1,7 @@
 package domain.Prenda;
 
-import domain.constants.Categoria;
-import domain.constants.Tela;
+import domain.Constants.Categoria;
+import domain.Constants.Tela;
 import domain.Exceptions.MaterialNoAptoParaTipoDePrenda;
 
 import java.util.Arrays;

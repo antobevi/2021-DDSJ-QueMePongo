@@ -1,4 +1,4 @@
-package domain.constants;
+package domain.Constants;
 
 public enum Tela {
     JEAN,

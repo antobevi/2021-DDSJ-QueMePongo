@@ -2,15 +2,17 @@ package domain;
 
 import domain.Exceptions.NoTieneAccesoAGuardarropa;
 import domain.Prenda.Prenda;
-import domain.Propuestas.Propuesta;
+import domain.Sugerencias.Estado;
+import domain.Sugerencias.Sugerencia;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Usuario {
-  private List<Guardarropa> guardarropasPropios;
-  private List<Guardarropa> guardarropasCompartidos;
-  private List<Propuesta> propuestasPendientes;
-  private List<Propuesta> propuestasAceptadas;
+  private List<Guardarropa> guardarropasPropios = new ArrayList<>();
+  private List<Guardarropa> guardarropasCompartidos = new ArrayList<>();
+  private List<Sugerencia> sugerencias = new ArrayList<>();
 
   public void crearGuardarropaCompartido(Usuario usuario, List<Prenda> prendas) {
     Guardarropa nuevoGuardarropa = new Guardarropa(prendas);
@@ -37,33 +39,36 @@ public class Usuario {
     guardarropasCompartidos.add(guardarropa);
   }
 
-  public void recibirPropuesta(Propuesta propuesta) {
-    propuestasPendientes.add(propuesta);
+  public List<Sugerencia> getSugerenciasPendientes() {
+    return sugerencias.stream().filter(sugerencia -> sugerencia.getEstado().equals(Estado.PENDIENTE))
+        .collect(Collectors.toList());
   }
 
-  public void quitarPropuesta(Propuesta propuesta) {
-    propuestasPendientes.remove(propuesta);
+  public List<Sugerencia> getSugerenciasAceptadas() {
+    return sugerencias.stream().filter(sugerencia -> sugerencia.getEstado().equals(Estado.ACEPTADA))
+        .collect(Collectors.toList());
   }
 
-  public void deshacerPropuestaAceptada(Propuesta propuesta) {
-    propuestasAceptadas.remove(propuesta);
+  public List<Sugerencia> getSugerenciasRechazadas() {
+    return sugerencias.stream().filter(sugerencia -> sugerencia.getEstado().equals(Estado.RECHAZADA))
+        .collect(Collectors.toList());
   }
 
-  public void aceptarPropuesta(Propuesta propuesta) {
-    this.quitarPropuesta(propuesta);
-    propuestasAceptadas.add(propuesta);
+  public void recibirPropuesta(Sugerencia sugerencia) {
+    sugerencias.add(sugerencia);
   }
 
-  public void proponerModificacion(Propuesta propuesta, Usuario usuario) {
-    if(comparteGuardarropaCon(usuario)) {
-      usuario.recibirPropuesta(propuesta);
+  public void sugerirModificacion(Sugerencia sugerencia, Usuario usuario) {
+    if(guardarropasCompartidosCon(usuario).contains(sugerencia.getGuardarropa())) {
+      usuario.recibirPropuesta(sugerencia);
     } else {
       throw new NoTieneAccesoAGuardarropa("No tiene acceso a este guardarropa!");
     }
   }
 
-  public Boolean comparteGuardarropaCon(Usuario usuario) {
-    // TODO: Falta validar que la propuesta sea sobre un guardarropa que compartan ambos usuarios?
-    return guardarropasCompartidos.stream().anyMatch(guardarropa -> usuario.getGuardarropasCompartidos().contains(guardarropa));
+  public List<Guardarropa> guardarropasCompartidosCon(Usuario usuario) {
+    return guardarropasCompartidos.stream()
+        .filter(guardarropa -> usuario.getGuardarropasCompartidos().contains(guardarropa))
+        .collect(Collectors.toList());
   }
 }

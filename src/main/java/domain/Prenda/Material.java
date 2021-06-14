@@ -1,7 +1,7 @@
 package domain.Prenda;
 
-import domain.constants.Tela;
-import domain.constants.Trama;
+import domain.Constants.Tela;
+import domain.Constants.Trama;
 
 import java.util.Objects;
 

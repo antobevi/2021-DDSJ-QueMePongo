@@ -1,21 +1,75 @@
-public interface Propuesta {
-  void modificarGuardarropa(Guardarropa guardarropa);
+public abstract class Sugerencia {
+  public Guardarropa guardarropa;
+  public Estado estado;
+
+  public Sugerencia(Guardarropa guardarropa) {
+    this.guardarropa = guardarropa;
+    this.estado = Estado.PENDIENTE;
+  }
+
+  public Guardarropa getGuardarropa() { return guardarropa; }
+
+  public Estado getEstado() {
+    return estado;
+  }
+
+  public void setEstado(Estado estado) {
+    this.estado = estado;
+  }
+
+  public void aceptar() {
+    this.setEstado(Estado.ACEPTADA);
+    this.aceptarSugerencia();
+  }
+
+  public void deshacer() {
+    this.rechazar(); // TODO: Preguntar si al deshacer se rechaza o se pone como pendiente de nuevo
+    this.deshacerSugerencia();
+  }
+
+  public void rechazar() {
+    setEstado(Estado.RECHAZADA);
+  }
+
+  public abstract void aceptarSugerencia();
+
+  public abstract void deshacerSugerencia();
 }
 
-public class PropuestaAgregar implements Propuesta {
+public class SugerenciaAgregar extends Sugerencia {
   private Prenda prendaAAgregar;
 
-  public void modificarGuardarropa(Guardarropa guardarropa) {
+  public SugerenciaAgregar(Guardarropa guardarropa, Prenda prendaAAgregar) {
+    super(guardarropa);
+    this.prendaAAgregar = prendaAAgregar;
+  }
+
+  public void aceptarSugerencia() {
     guardarropa.agregarPrenda(prendaAAgregar);
   }
+
+  public void deshacerSugerencia() {
+    guardarropa.quitarPrenda(prendaAAgregar);
+  }
+
 }
 
-public class PropuestaQuitar implements Propuesta {
+public class SugerenciaQuitar extends Sugerencia {
   private Prenda prendaAQuitar;
 
-  public void modificarGuardarropa(Guardarropa guardarropa) {
+  public SugerenciaQuitar(Guardarropa guardarropa, Prenda prendaAQuitar) {
+    super(guardarropa);
+    this.prendaAQuitar = prendaAQuitar;
+  }
+
+  public void aceptarSugerencia() {
     guardarropa.quitarPrenda(prendaAQuitar);
   }
+
+  public void deshacerSugerencia() {
+    guardarropa.agregarPrenda(prendaAQuitar);
+  }
+
 }
 
 class Guardarropa {
@@ -29,48 +83,65 @@ class Guardarropa {
 }
 
 public class Usuario {
-  List<Guardarropa> guardarropas;
-  List<Propuesta> propuestasPendientes;
-  List<Propuesta> propuestasAceptadas;
+  private List<Guardarropa> guardarropasPropios = new ArrayList<>();
+  private List<Guardarropa> guardarropasCompartidos = new ArrayList<>();
+  private List<Sugerencia> sugerencias = new ArrayList<>();
 
-  void crearGuardarropaCompartido(Usuario usuario, List<Prenda> prendas) {
+  public void crearGuardarropaCompartido(Usuario usuario, List<Prenda> prendas) {
     Guardarropa nuevoGuardarropa = new Guardarropa(prendas);
-
     this.compartirGuardarropaCon(usuario, nuevoGuardarropa);
-    this.agregarGuardarropa(nuevoGuardarropa);
   }
 
-  void agregarGuardarropa(Guardarropa guardarropa) {
-    guardarropas.add(guardarropa);
+  public void compartirGuardarropaCon(Usuario usuario, Guardarropa guardarropa) {
+    usuario.agregarGuardarropaCompartido(guardarropa);
   }
 
-  void compartirGuardarropaCon(Usuario usuario, Guardarropa guardarropa) {
-    usuario.agregarGuardarropa(guardarropa);
+  public List<Guardarropa> getGuardarropasPropios() {
+    return guardarropasPropios;
   }
 
-  void recibirPropuesta(Propuesta propuesta) {
-    propuestasPendientes.add(propuesta);
+  public List<Guardarropa> getGuardarropasCompartidos() {
+    return guardarropasCompartidos;
   }
 
-  void quitarPropuestaPendiente(Propuesta propuesta) {
-    propuestasPendientes.remove(propuesta);
+  public void agregarGuardarropaPropio(Guardarropa guardarropa) {
+    guardarropasPropios.add(guardarropa);
   }
 
-  void rechazarPropuesta(Propuesta propuesta) {
-    propuestasPendientes.remove(propuesta);
-    // TODO: ¿Se agrega a alguna lista? Si no, repite logica
+  public void agregarGuardarropaCompartido(Guardarropa guardarropa) {
+    guardarropasCompartidos.add(guardarropa);
   }
 
-  void deshacerPropuestaAceptada(Propuesta propuesta) {
-    propuestasAceptadas.remove(propuesta);
+  public List<Sugerencia> getSugerenciasPendientes() {
+    return sugerencias.stream().filter(sugerencia -> sugerencia.getEstado().equals(Estado.PENDIENTE))
+        .collect(Collectors.toList());
   }
 
-  void aceptarPropuesta(Propuesta propuesta) {
-    this.quitarPropuestaPendiente(propuesta);
-    propuestasAceptadas.add(propuesta);
+  public List<Sugerencia> getSugerenciasAceptadas() {
+    return sugerencias.stream().filter(sugerencia -> sugerencia.getEstado().equals(Estado.ACEPTADA))
+        .collect(Collectors.toList());
   }
 
-  void proponerModificacion(Propuesta propuesta, Usuario usuario) {
-    usuario.recibirPropuesta(propuesta);
+  public List<Sugerencia> getSugerenciasRechazadas() {
+    return sugerencias.stream().filter(sugerencia -> sugerencia.getEstado().equals(Estado.RECHAZADA))
+        .collect(Collectors.toList());
+  }
+
+  public void recibirPropuesta(Sugerencia sugerencia) {
+    sugerencias.add(sugerencia);
+  }
+
+  public void sugerirModificacion(Sugerencia sugerencia, Usuario usuario) {
+    if(guardarropasCompartidosCon(usuario).contains(sugerencia.getGuardarropa())) {
+      usuario.recibirPropuesta(sugerencia);
+    } else {
+      throw new NoTieneAccesoAGuardarropa("No tiene acceso a este guardarropa!");
+    }
+  }
+
+  public List<Guardarropa> guardarropasCompartidosCon(Usuario usuario) {
+    return guardarropasCompartidos.stream()
+        .filter(guardarropa -> usuario.getGuardarropasCompartidos().contains(guardarropa))
+        .collect(Collectors.toList());
   }
 }

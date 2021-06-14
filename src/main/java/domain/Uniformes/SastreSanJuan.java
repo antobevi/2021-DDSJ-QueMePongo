@@ -1,7 +1,7 @@
 package domain.Uniformes;
 
 import domain.Prenda.*;
-import domain.constants.Tela;
+import domain.Constants.Tela;
 
 public class SastreSanJuan extends Sastre {
   @Override
