@@ -1,4 +1,4 @@
-package domain.ServiciosDeComunicacion;
+package domain.MediosDeComunicacion;
 
 import java.util.HashMap;
 import java.util.Map;

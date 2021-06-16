@@ -1,4 +1,4 @@
-package domain.ServiciosDeComunicacion;
+package domain.MediosDeComunicacion;
 
 public class Mail {
   private String destinatario;

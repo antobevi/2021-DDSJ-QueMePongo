@@ -1,4 +1,4 @@
-package domain.ServiciosDeComunicacion;
+package domain.MediosDeComunicacion;
 
 //import Exceptions.NoSePuedeEnviarMail;
 
@@ -9,11 +9,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class MailerGmail implements Mailer {
-  private String remitente = "rescateDePatitas@gmail.com";
+public class MailerGmail { // implements MailSender
+  private String remitente = "@gmail.com";
   private String clave = "claveMail214&";
 
-  public void enviarMail(Mail mail) {
+  public void notificar() { // Mail mail por param
 
     //Establecemos la conexión a gmail
     Properties propiedad = new Properties();
@@ -29,9 +29,9 @@ public class MailerGmail implements Mailer {
     MimeMessage mensaje = new MimeMessage(session);
 
     try {
-      mensaje.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(mail.getDestinatario())));
-      mensaje.setSubject(mail.getAsunto());
-      mensaje.setText(mail.getCuerpoDelMensaje());
+      //mensaje.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(mail.getDestinatario())));
+      //mensaje.setSubject(mail.getAsunto());
+      //mensaje.setText(mail.getCuerpoDelMensaje());
       Transport transport = session.getTransport("smtp");
       transport.connect("smtp.gmail.com", remitente, clave);
       transport.sendMessage(mensaje, mensaje.getAllRecipients());
