@@ -9,24 +9,35 @@ import domain.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Alerta {
-  List<MedioDeComunicacion> notificadores;
+public class Alerta {
+  private String mensajeAlerta;
+  private TipoAlerta tipo; // Enum
+  private List<MedioDeComunicacion> notificadores;
 
-  public Alerta() {
+  public Alerta(String mensajeAlerta, TipoAlerta tipo) {
+    this.mensajeAlerta = mensajeAlerta;
+    this.tipo = tipo;
     this.notificadores = new ArrayList<>();
   }
 
-  protected void setearNotificador(Usuario usuario) {
+  public TipoAlerta getTipo() {
+    return tipo;
+  }
+
+  public void setearNotificadores(Usuario usuario) {
     MailSender mailer = new MailSender();
-    Mail mail = new Mail(usuario.getEmail(), "Nueva alerta metereologica", this.getMensajeAlerta());
+    Mail mail = new Mail(usuario.getEmail(), "Nueva alerta metereologica", mensajeAlerta);
 
     mailer.agregarMailAEnviar(mail); // TODO: El Mailer en realidad no tiene como atributo una lista de mails, ver otra forma de encararlo polimorficamente!
 
     notificadores.add(mailer);
+    notificadores.add(new NotificationService(mensajeAlerta, usuario));
   }
 
-  protected abstract String getMensajeAlerta();
-  public abstract void notificar(Usuario usuario);
+  public void notificar(Usuario usuario) {
+    this.setearNotificadores(usuario);
+    notificadores.stream().forEach(notificador -> notificador.enviar());
+  }
 
 }
 

@@ -1,4 +1,4 @@
-package domain.MediosDeComunicacion;
+package domain;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +19,12 @@ public class ServiceLocator {
     servicios.put(clazz, instance);
   }
 
-  public Object get(Class clazz) {
-    return servicios.get(clazz);
+  public static ServiceLocator getInstance() {
+    return instance;
   }
 
-  public static ServiceLocator getServiceLocator() {
-    return instance;
+  public Object get(Class clazz) {
+    return servicios.get(clazz);
   }
 
   // Para testing

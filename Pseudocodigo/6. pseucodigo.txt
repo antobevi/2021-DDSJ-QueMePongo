@@ -3,124 +3,158 @@ public class ProveedorClimaACUWeatherAPI implements ProveedorClima {
     return proveedorClima.getAlertas(ciudad); // Se retorna las alertas del momento. TODO: Automaticamente?
   }
 
-  public String generarAlerta(String ciudad) {
-    // TODO: generar la alerta, actualizar sugerencias para caso de lluvia y granizo, y notificar a usuarios si llevar paraguas o no usar auto.
-    // TODO: Tmb enviar un mail a cada usuario notificando la alerta y cuál es.
+  public List<Alerta> consultarUltimasAlertasPara(String ciudad) {
+    Map<String, Object> alertas = proveedorClima.getAlertas("Buenos Aires");
+    List<String> ultimasAlertas = (List<String>) alertas.get("CurrentAlerts"); //Devuelve un objeto como [“STORM”, “HAIL”, ...]
+
+    // TODO: Tiene que preguntar a cada rato el tiempo las nuevas alertas
+    RepositorioAlertas.getInstance().actualizarAlertas(ultimasAlertas);
+    RepositorioUsuarios.getInstance().getUsuarios().forEach(user -> user.hayAlertasNuevas(ultimasAlertas));
+
+    return ultimasAlertas;
   }
 }
 
 public static RepositorioUsuarios {
   List<Usuario> usuarios = new ArrayList<>;
+  private static final RepositorioUsuarios instance = new RepositorioUsuarios();
 
-  //public void notificarUsuarios() {}
+  public static RepositorioUsuarios getInstance() {
+      return instance;
+  }
+
+  public List<Usuario> getUsuarios() {
+    return usuarios;
+  }
+
+}
+
+public class RepositorioAlertas {
+  private static final RepositorioAlertas instance = new RepositorioAlertas();
+  private List<String> alertas;
+
+  private RepositorioAlertas() {
+    this.alertas = new ArrayList<>();
+  }
+
+  public static RepositorioAlertas getInstance() {
+    return instance;
+  }
+
+  public List<String> getAlertas() {
+    return alertas;
+  }
+
+  public void actualizarAlertas(List<String> alertas) {
+    this.alertas = alertas;
+  }
+
+}
+
+public interface MedioDeComunicacion {
+  
+  void enviar();
+
+}
+
+public enum TipoAlerta {
+  STORM,
+  HAIL;
+}
+
+public class Alerta {
+  private String mensajeAlerta;
+  private TipoAlerta tipo; // Enum
+  private List<MedioDeComunicacion> notificadores;
+
+  public void setearNotificadores(Usuario usuario) {
+    MailSender mailer = new MailSender();
+    Mail mail = new Mail(usuario.getEmail(), "Nueva alerta metereologica", mensajeAlerta);
+
+    mailer.agregarMailAEnviar(mail); // TODO: El Mailer en realidad no tiene como atributo una lista de mails, ver otra forma de encararlo polimorficamente!
+
+    notificadores.add(mailer);
+    notificadores.add(new NotificationService(mensajeAlerta, usuario));
+  }
+
+  public void notificar(Usuario usuario) {
+    this.setearNotificadores(usuario);
+    notificadores.stream().forEach(notificador -> notificador.enviar());
+  }
+
 }
 
 public class AsesorImagen {
-  public void sugerenciasDiarias(String ciudad){
-    int tiempoRepeticion = 86400000; // 24 hs
-    Timer temporizador = new Timer();
-    Date horaSugerenciaDiaria = new Date(System.currentTimeMillis()); // DUDA
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.HOUR_OF_DAY, 8);
-    calendar.set(Calendar.MINUTE, 0);
-    calendar.set(Calendar.SECOND, 0);
-    temporizador.schedule(this.sugerirAtuendo(), horaSugerenciaDiaria,tiempoRepeticion);
-    RepositorioUsuarios.getUsuarios().stream().
-      forEach(usuario -> this.sugerirAtuendo(usuario.guardarropaPrincipal(), ciudad));
-  // TODO: Falta hacerle llegar una notificacion.  
-  }
+  public void sugerirAtuendo(Guardarropa guardarropa, String ciudad)
 
   public void actualizarSugerenciaSegun(String alerta) { 
-    //TODO: Enviarle a los usuarios una notificacion con la alerta y la sugerencia
+    // TODO
   }
 }
 
-public interfaceMailer {
-  public void enviarMail(Mail mail);
+public class Usuario {
+  private String email;
+  private List<Atuendo> sugerenciasAtuendos; // Asumo que la sugerencia del dia es un atuendo por guardarropa propio
+  private List<Notificador> notificablesPreferentes; // Tipos de notificaciones o acciones a las que se suscribio el usuario
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void haySugerenciaNueva() {
+    // Recibe una sugerencia por cada guardarropa.
+    List<Atuendo> sugerencias = guardarropasPropios.stream().map(guardarropa -> ((AsesorImagen) ServiceLocator.getInstance()
+        .get(AsesorImagen.class)).sugerirAtuendo(guardarropa, "Buenos Aires")).collect(Collectors.toList());
+
+    sugerenciasAtuendos.clear();
+    sugerenciasAtuendos.addAll(sugerencias);
+  }
+
+  // El proveedor del clima cuando hay nuevas alertas le avisa al usuario
+  // y el usuario "pide" que le envien las notificaciones a las que se suscribio
+  public void hayAlertasNuevas(List<String> alertas) {
+    // Cuando el proveedor de clima actualiza las alertas debe actualizarse la sugerencia diaria
+    notificablesPreferentes.forEach(notificable -> notificable.enviar(alertas, this));
+  }
 }
 
-public class MailerGmail implements Mailer {
-  private String remitente = "rescateDePatitas@gmail.com";
-  private String clave = "claveMail214&";
+public interface Notificador {
 
-  public void enviarMail(Mail mail) {
+  public void enviar(List<Alerta> alertas, Usuario usuario);
 
-    //Establecemos la conexión a gmail
-    Properties propiedad = new Properties();
-    propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
-    propiedad.setProperty("mail.smtp.port", "587");
-    propiedad.setProperty("mail.smtp.auth", "true");
-    propiedad.setProperty("mail.smtp.starttls.enable", "true");
-    propiedad.setProperty("mail.smtp.user", this.remitente);
-    propiedad.setProperty("mail.smtp.clave", this.clave);
-    propiedad.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
+}
 
-    Session session = Session.getDefaultInstance(propiedad);
-    MimeMessage mensaje = new MimeMessage(session);
+public class NotificadorSugerenciaAtuendo implements Notificador {
 
-    try {
-      mensaje.addRecipients(Message.RecipientType.TO, String.valueOf(new InternetAddress(mail.getDestinatario())));
-      mensaje.setSubject(mail.getAsunto());
-      mensaje.setText(mail.getCuerpoDelMensaje());
-      Transport transport = session.getTransport("smtp");
-      transport.connect("smtp.gmail.com", remitente, clave);
-      transport.sendMessage(mensaje, mensaje.getAllRecipients());
-      transport.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-      //throw new NoSePuedeEnviarMailException("No se pudo realizar el envío del mail");
+  // Si el usuario quiere recibir una nueva sugerencia cada vez que haya una alerta:
+  public void enviar(List<String> alertas, Usuario usuario) {
+    // TODO: Se realiza la sugerencia de atuendo por medio de una notificacion?
+    // TODO: Sugerir deberia conocer la alerta y sugerir de acuerdo a la situacion?
+    //  O con que el asesor pida las condiciones climaticas en el momento alcanza?
+    usuario.haySugerenciaNueva();
+  }
+
+}
+
+// Si el usuario se suscribe a ambas alertas (no se da la opcion de elegir):
+public class NotificadorAlertaGranizo {
+
+  // La alerta se encarga de notificar por los medios de comunicacion correspondientes.
+  public void enviar(List<String> alertas, Usuario usuario) {
+    if (alertas.contains("HAIL")) { // TODO: Se podria abstraer esta parte que solo depende de un string estado?
+      new Alerta("Va a caer granizo! Evita salir con el auto.", TipoAlerta.HAIL).notificar(usuario);
     }
   }
 
 }
 
-public class Mail {
-   private String destinatario;
-  private String asunto;
-  private String cuerpoDelMensaje;
+public class NotificadorAlertaTormenta implements Notificador {
 
-  public Mail(String destinatario, String asunto, String cuerpoDelMensaje) {
-    this.destinatario = destinatario;
-    this.asunto = asunto;
-    this.cuerpoDelMensaje = cuerpoDelMensaje;
+  // La alerta se encarga de notificar por los medios de comunicacion correspondientes.
+  public void enviar(List<String> alertas, Usuario usuario) {
+    if(alertas.contains("STORM")) {
+      new Alerta("Va a haber una tormenta! Si salis, llevate un paraguas.", TipoAlerta.STORM).notificar(usuario);
+    }
   }
 
-  public String getDestinatario() {
-    return destinatario;
-  }
-
-  public String getAsunto() {
-    return asunto;
-  }
-
-  public String getCuerpoDelMensaje() {
-    return cuerpoDelMensaje;
-  }
-}
-
-public class ServiceLocator {
-  private static ServiceLocator instance = new ServiceLocator(); // Singleton
-  // Designa claves únicas para los valores correspondientes que se pueden recuperar en cualquier punto dado.
-  Map<Class,Object> servicios = new HashMap<>();
-
-  public void registrar(Class clazz, Object instance) {
-    servicios.put(clazz, instance);
-  }
-
-  public Object get(Class clazz) {
-    return servicios.get(clazz);
-  }
-
-  public static ServiceLocator getServiceLocator() {
-    return instance;
-  }
-
-  // Para testing
-  public void eliminarServicios(){
-    this.servicios = new HashMap<>();
-  }
-}
-
-public class NotificationService {
-  // TODO
 }

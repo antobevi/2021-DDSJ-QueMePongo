@@ -1,5 +1,11 @@
 package domain.ServiciosDelClima;
 
+import domain.Repositorios.RepositorioAlertas;
+import domain.Repositorios.RepositorioUsuarios;
+import domain.Alertas.Alerta;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 // TODO: Falta la logica de no tener gastos innecesarios implementando una memoria cache
@@ -14,13 +20,17 @@ public class ProveedorClimaACUWeatherAPI implements ProveedorClima {
   public Integer consultarTemperaturaPara(String ciudad) {
     return this.consultarCondicionesClimaticas(ciudad).get("Temperature").hashCode(); // TODO: Preguntar esto
   }
-/*
-  Map<String, Object> alertas = apiClima.getAlertas("Buenos Aires");
-  alertas.get("CurrentAlerts"); //Devuelve un objeto como [“STORM”, “HAIL”, ...]
 
-  public String getAlerta(String ciudad) {
-    proveedorClima.getWeather(ciudad).get(1)
-    return "";
+  public List<String> consultarUltimasAlertasPara(String ciudad) {
+    Map<String, Object> alertas = proveedorClima.getAlertas("Buenos Aires");
+    List<String> ultimasAlertas = (List<String>) alertas.get("CurrentAlerts"); //Devuelve un objeto como [“STORM”, “HAIL”, ...]
+
+    if(ultimasAlertas != null) { // Para que no le avise si no hay alertas
+      RepositorioAlertas.getInstance().actualizarAlertas(ultimasAlertas);
+      RepositorioUsuarios.getInstance().getUsuarios().forEach(user -> user.hayAlertasNuevas(ultimasAlertas));
+    }
+
+    return ultimasAlertas;
   }
-*/
+
 }

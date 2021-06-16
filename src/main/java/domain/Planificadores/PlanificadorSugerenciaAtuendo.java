@@ -4,7 +4,7 @@ import domain.Repositorios.RepositorioUsuarios;
 
 import java.util.*;
 
-public class Planificador {
+public class PlanificadorSugerenciaAtuendo {
 
   // Automatizamos el envio de la sugerencia diaria.
   public void notificarSugerenciaDiaria() {

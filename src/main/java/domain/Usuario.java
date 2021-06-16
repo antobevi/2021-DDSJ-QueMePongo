@@ -115,7 +115,7 @@ public class Usuario {
 
   // El proveedor del clima cuando hay nuevas alertas le avisa al usuario
   // y el usuario "pide" que le envien las notificaciones a las que se suscribio
-  public void hayAlertasNuevas(List<Alerta> alertas) {
+  public void hayAlertasNuevas(List<String> alertas) {
     // Cuando el proveedor de clima actualiza las alertas debe actualizarse la sugerencia diaria
     notificablesPreferentes.forEach(notificable -> notificable.enviar(alertas, this));
   }

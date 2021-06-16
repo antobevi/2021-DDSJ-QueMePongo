@@ -21,4 +21,9 @@ public final class AccuWeatherAPI {
 			}});
 		}});
 	}
+
+	public static final Map<String, Object> getAlertas(String ciudad) {
+    	return null; // TODO: Falta implementar
+	}
+
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RepositorioAlertas {
   private static final RepositorioAlertas instance = new RepositorioAlertas();
-  private List<Alerta> alertas;
+  private List<String> alertas;
 
   private RepositorioAlertas() {
     this.alertas = new ArrayList<>();
@@ -17,11 +17,11 @@ public class RepositorioAlertas {
     return instance;
   }
 
-  public List<Alerta> getAlertas() {
+  public List<String> getAlertas() {
     return alertas;
   }
 
-  public void actualizarAlertas(List<Alerta> alertas) {
+  public void actualizarAlertas(List<String> alertas) {
     this.alertas = alertas;
   }
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RepositorioUsuarios {
   private static final RepositorioUsuarios instance = new RepositorioUsuarios();
-  private List<Usuario> usuarios;
+  private final List<Usuario> usuarios;
 
   private RepositorioUsuarios() {
     this.usuarios = new ArrayList<>();
