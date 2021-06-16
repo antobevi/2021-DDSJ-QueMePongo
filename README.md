@@ -84,8 +84,8 @@ Aclaraciones:
 
 - Para poder manejar varios guardarropas, cree una clase Usuario la cual tiene una lista de guardarropas. Decidí no crear una interfaz Guardarropa y subclases por que por ahora no se sabe si cada guardarropa tiene un comportamiento en particular, todos van a tener una lista de prendas de acuerdo al tipo de guardarropa que sea.
 - Para compartir un guardarropa con otro usuario, en la clase Usuario cree un método que recibe por parámetro el usuario y le agrega el guardarropas a su lista de guardarropas. Además, el usuario tiene 2 listas: Una lista con los guardarropas a los que tiene acceso (que le fueron compartidos) y una lista con los guardarropas propios, de esta forma cuando un usuario le hace una sugerencia a otro, se valida que compartan un guardarropas.
-- Para ver las propuestas de modificación recibidas cree una lista de propuestas en la clase Usuario. Las propuestas las modelé como una Interfaz Propuesta y subclases PropuestaAgregar y PropuestaQuitar para que haya polimorfismo entre los tipos de sugerencia.
-- Para deshacer una sugerencia ya aceptada cree una lista de propuestas aceptadas en la clase Usuario ya que necesito guardar esa información en algún lugar, si elimino la sugerencia de la lista después no tengo manera de deshacer una sugerencia ya aceptada. Cuando aceptas una sugerencia se agrega a esta lista y se elimina de la lista de propuestas pendientes.
+- Para ver las propuestas de modificación recibidas cree una lista de sugerencias en la clase Usuario. Las sugerencias las modelé como una Interfaz Sugerencia y 2 clases que implementan dicha interfaz: SugerenciaAgregar y SugerenciaQuitar.
+- Las sugerencias tienen un estado. Al aceptar, rechazar o deshacer una sugerencia se le cambia dicho estado, de esta forma, para consultar cuales son las sugerencias en un determinado estado cree un método en la clase Usuario que filtran las sugerencias de la lista Sugerencias según determinado estado. Por otro lado, es la clase Sugerencia la cual entiende los mensajes aceptar, rechazar y deshacer.
 
 ~ *Sexta Iteración* ~
 
