@@ -115,4 +115,6 @@ Como administrador:
 
 Aclaraciones:
 
-- TODO
+- Para que todos los usuarios reciban una sugerencia cada mañana de manera automática, cree una clase PlanificadorSugerenciaAtuendo la cual utiliza un timer para que todos los días a las 6 am ejecute el método sugerirAtuendoDiario que hace que el usuario ejecute haySugerenciaNueva, la cual se guarda dicha sugerencia en una lista. Decidí que sea una lista de sugerencias ya que para mi, el usuario al tener muchos guardarropas de diferentes estilos, habrá una sugerencia por cada guardarropa. No le llega una notificación a través de la app ya que en el enunciado no lo aclaraba.
+- Por otro lado, también cree un PlanificadorAlerta el cual cada 5 minutos consulta las últimas alertas. Si hay nuevas alertas, actualiza el respositorio de alertas y da aviso al usuario (sólo si el usuario se suscribió a dicha notificación). El usuario tiene una lista de notificaciones preferentes, es decir, las acciones a las cuales el usuario se suscribió para recibir una notificación. Cada vez que hay alertas nuevas, el usuario dispara el método hayAlertasNuevas, el cual le delega a cada notificador enviar el aviso correspondiente, ya sea crear una sugerencia como notificar que hubo una alerta de tormenta o de granizo.
+- Delegué la responsabilidad de enviar un mail o una notificación a una clase Alerta, la cual mediante su constructor se le indica que mensaje enviar. Es el notificador el que se encarga de instanciar dicha Alerta ya que primero verifica que en la lista de alertas qué tipo de alerta se dió.
